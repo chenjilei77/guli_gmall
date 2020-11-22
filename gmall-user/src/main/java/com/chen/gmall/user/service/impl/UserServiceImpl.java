@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl  implements UserService {
 
     @Autowired
     UserMapper userMapper;
@@ -41,5 +41,15 @@ public class UserServiceImpl implements UserService {
 //        List<UmsMemberReceiveAddress> umsMemberReceiveAddresses = umsMemberReceiveAddressMapper.selectByExample(example);
 
         return umsMemberReceiveAddresses;
+    }
+
+    @Override
+    public UmsMember login(UmsMember umsMember) {
+        return null;
+    }
+
+    @Override
+    public void addUserToken(String token, String userId) {
+
     }
 }

@@ -23,28 +23,41 @@ public class PassportController {
 
     @RequestMapping("login")
     @ResponseBody
-    public String login(UmsMember umsMember,String currentIp){
-        String token="";
+    public String login(UmsMember umsMember, HttpServletRequest request){
+
+        String token = "";
+
+        // 调用用户服务验证用户名和密码
         UmsMember umsMemberLogin = userService.login(umsMember);
 
         if(umsMemberLogin!=null){
-            //登陆成功
+            // 登录成功
 
-
-            //用Jwt制作token
-            String userId = umsMemberLogin.getId();
+            // 用jwt制作token
+            String memberId = umsMemberLogin.getId();
             String nickname = umsMemberLogin.getNickname();
             Map<String,Object> userMap = new HashMap<>();
+            userMap.put("memberId",memberId);
+            userMap.put("nickname",nickname);
 
-            userMap.put("memberId",userId);
-            userMap.put("nickName",nickname);
 
-            token = JwtUtil.encode("2020gmall07", userMap, currentIp);
-            //将token放入redis一份
+            String ip = request.getHeader("x-forwarded-for");// 通过nginx转发的客户端ip
+            if(StringUtils.isBlank(ip)){
+                ip = request.getRemoteAddr();// 从request中获取ip
+                if(StringUtils.isBlank(ip)){
+                    ip = "127.0.0.1";
+                }
+            }
 
-            userService.addUserToken(token,userId);
+            // 按照设计的算法对参数进行加密后，生成token
+            token = JwtUtil.encode("2020gmall07", userMap, ip);
+
+            // 将token存入redis一份
+            userService.addUserToken(token,memberId);
+
         }else{
-            token="fail";
+            // 登录失败
+            token = "fail";
         }
 
         return token;
@@ -57,6 +70,7 @@ public class PassportController {
         modeMap.put("returnUrl",returnUrl);
         return "index";
     }
+
     @RequestMapping("verify")
     @ResponseBody
     public String verify(String token,HttpServletRequest request){

@@ -30,17 +30,24 @@ public class CartController {
     CartService cartService;
 
     @RequestMapping("toTrade")
-    @LoginRequired(loginSuccess = true)
+    @LoginRequired(loginSuccess = false)
     public String toTrade(HttpServletRequest request, HttpServletResponse response, ModelMap map){
         String memberId = (String) request.getAttribute("memberId");
         String nickName = (String)request.getAttribute("nickName");
 
+
         return "toTrade";
     }
 
-
+    @RequestMapping("index")
+    public String index(){
+        System.out.println("ssssssss1");
+        System.out.println("ssssssss2");
+        System.out.println("ssssssss3");
+        return null;
+    }
     @RequestMapping("cartList")
-    @LoginRequired(loginSuccess = false)
+    @LoginRequired(loginSuccess = true)
     public String cartList(HttpServletRequest request, HttpServletResponse response, ModelMap map){
 
         List<OmsCartItem> omsCartItems = new ArrayList<>();
@@ -60,6 +67,7 @@ public class CartController {
         }
 
         map.put("cartList",omsCartItems);
+
         return "cartList";
     }
 
@@ -92,7 +100,7 @@ public class CartController {
         omsCartItem.setProductSkuId(skuId);
         omsCartItem.setProductSubTitle("");
 
-        if(StringUtils.isBlank(memberId)){
+            if(StringUtils.isBlank(memberId)){
             //用户没有登陆
             List<OmsCartItem> omsCartItems = new ArrayList<>();
             //cookie中原有数据

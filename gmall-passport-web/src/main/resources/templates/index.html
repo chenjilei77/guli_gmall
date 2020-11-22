@@ -83,7 +83,8 @@
                     if(token=="fail"){
 						alert("用户名或者密码错误");
 					}else{
-						alert($("#returnUrl").val());
+
+                    	alert($("#returnUrl").val()+"登陆成功");
                         // 验证token是否为空或者异常
                         window.location.href=$("#returnUrl").val()+"?token="+token;
 					}

@@ -10,4 +10,5 @@ import java.lang.annotation.Target;
 public @interface LoginRequired {
 
     boolean loginSuccess() default true;
+
 }

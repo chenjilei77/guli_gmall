@@ -54,6 +54,13 @@ public class SpuServiceImpl implements SpuService {
         for (PmsProductSaleAttr pmsProductSaleAttr : pmsProductSaleAttrList) {
             pmsProductSaleAttr.setProductId(id);
             pmsProductSaleAttrMapper.insertSelective(pmsProductSaleAttr);
+
+            List<PmsProductSaleAttrValue> attrValueList = pmsProductSaleAttr.getAttrValueList();
+
+            for (PmsProductSaleAttrValue pmsProductSaleAttrValue : attrValueList) {
+                pmsProductSaleAttrValue.setProductId(id);
+                pmsProductSaleAttrValueMapper.insertSelective(pmsProductSaleAttrValue);
+            }
         }
     }
 

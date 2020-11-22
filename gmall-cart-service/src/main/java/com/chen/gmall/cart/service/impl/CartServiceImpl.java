@@ -6,7 +6,7 @@ import com.chen.gmall.cart.mapper.OmsCartItemMapper;
 import com.chen.gmall.service.CartService;
 import com.chen.gmall.utils.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.alibaba.dubbo.config.annotation.Service;
 import redis.clients.jedis.Jedis;
 import tk.mybatis.mapper.entity.Example;
 

@@ -53,7 +53,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
             if(StringUtils.isBlank(ip)){
                 ip="127.0.0.1";
             }
-            String successJson = HttpclientUtil.doGet("http://127.0.0.1:8085/verify?"+token+"&currentIp="+ip);
+            String successJson = HttpclientUtil.doGet("http://192.168.134.1:8085/verify?token="+token+"&currentIp="+ip);
             successMap = JSON.parseObject(successJson, Map.class);
             success = successMap.get("status");
         }
@@ -63,7 +63,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter{
             if(!success.equals("success")){
                 //重定向回passport登陆
                 StringBuffer requestURL = request.getRequestURL();
-                response.sendRedirect("http://127.0.0.1:8085/index?ReturnUrl="+requestURL.toString());
+                response.sendRedirect("http://192.168.134.1:8085/index?returnUrl="+requestURL.toString());
                 return false;
             }
                 //验证通过，覆盖cookie中的token

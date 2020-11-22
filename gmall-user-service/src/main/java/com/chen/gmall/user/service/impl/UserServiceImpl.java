@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUserToken(String token, String userId) {
         Jedis jedis = redisUtil.getJedis();
-
+        //给定token的过期时间，两个小时内有效，将token放入到redis缓存中保存
         jedis.setex("user"+userId+":token",60*60*2,token);
 
         jedis.close();
